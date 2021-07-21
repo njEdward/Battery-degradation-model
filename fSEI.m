@@ -1,0 +1,20 @@
+function iSEI=fSEI(t,I,SOC,T,kSEI,ESEI,lamda,epsilong_s_n,deltan)
+% kSEI=1.5;
+% ESEI=27219;
+% lamda=2.5;
+epsilong_s_n=epsilong_s_n';
+i0=2;
+F=96487;
+R=8.314;
+R_s_n=9*10^-6;
+% I=abs(I);
+A=1;
+% deltan=12.5e-6;
+z=SOC*0.785+(1-SOC)*0.042;
+Un=fU(z);
+k=R_s_n*I/(6*epsilong_s_n*i0*A*deltan);
+phik=2*R*T/F.*log(k+sqrt(k.^2+1));
+%phik=2*R*T/F*asinh(k);
+theta=exp(F/R/T*(phik+Un-0.4));
+iSEI=kSEI*exp(-ESEI/R/T)/2./(1+lamda*theta)./sqrt(t);
+end
